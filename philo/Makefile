@@ -6,7 +6,7 @@
 #    By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/23 20:09:20 by jiskim            #+#    #+#              #
-#    Updated: 2022/04/23 20:18:45 by jiskim           ###   ########.fr        #
+#    Updated: 2022/04/29 23:30:56 by jiskim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,8 @@ INCS_DIR	=	-I./includes
 SRCS_DIR 		= ./srcs/
 SRCS		= $(addprefix $(SRCS_DIR), \
 				main.c \
+				print_error.c \
+				utils.c \
 				)
 OBJS 		= $(SRCS:.c=.o)
 
@@ -27,7 +29,6 @@ ifdef DEBUG
 else
 	CFLAGS = -Wall -Wextra -Werror
 endif
-
 
 all: $(NAME)
 

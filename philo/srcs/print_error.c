@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/04/30 01:07:13 by jiskim           ###   ########.fr       */
+/*   Created: 2022/04/29 23:25:54 by jiskim            #+#    #+#             */
+/*   Updated: 2022/04/30 00:47:13 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef PHILO_H
-# define PHILO_H
+#include "philo.h"
 
-typedef struct s_philo_info
+int	print_arg_error(void)
 {
-	int	number;
-	int time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	must_eat_count;
-}			t_philo_info;
+	write(STDERR_FILENO, "Invalid Argument.\n", 19);
+	return (1);
+}
 
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-/* print_error */
-int	print_arg_error(void);
-int	print_malloc_error(void);
-
-/* utils */
-int	ft_strlen(char *str);
-
-# endif
+int	print_malloc_error(void)
+{
+	write(STDERR_FILENO, "Memory Allocation Error.\n", 26);
+	return (-1);
+}
