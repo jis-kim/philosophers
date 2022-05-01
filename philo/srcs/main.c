@@ -6,18 +6,25 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/04/30 01:14:45 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/02 01:10:04 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void *philo_thread(void *info)
+/**
+ * eating, sleeping, thinking
+ */
+void *philo_task(void *philo)
 {
-	printf("hello, world!(%d)\n", ((t_philo_info *)info)->number);
-	return (info);
-}
+	t_philo	*p;
 
+	p = (t_philo *)philo;
+	pthread_mutex_lock(&(p->info->print));
+	printf("%d philosopher test %ld\n", p->index, get_time_ms());
+	pthread_mutex_unlock(&(p->info->print));
+	return (p);
+}
 
 int		check_argv(char *argv)
 {
@@ -49,6 +56,9 @@ int	set_philo_info(int argc, char **argv, t_philo_info *info)
 	if (num <= 0)
 		return (1);
 	info->number = num;
+	info->fork = malloc(sizeof(pthread_mutex_t) * num);
+	if (!info->fork)
+		return (1);
 	num = check_argv(argv[2]);
 	if (num == -1)
 		return (1);
@@ -68,6 +78,8 @@ int	set_philo_info(int argc, char **argv, t_philo_info *info)
 			return (1);
 		info->must_eat_count = num;
 	}
+	else
+		info->must_eat_count = -1;
 	return (0);
 }
 
@@ -85,21 +97,27 @@ int	set_philo_info(int argc, char **argv, t_philo_info *info)
  */
 int	main(int argc, char **argv)
 {
-	pthread_t *philosophers;
+	pthread_t *philo_thread;
 	t_philo_info philo_info;
+	t_philo	*philo;
 	int i;
 
 	if (argc != 5 && argc != 6)
 		return (print_arg_error());
 	if (set_philo_info(argc, argv, &philo_info))
 		return (print_arg_error());
-	philosophers = malloc(sizeof(pthread_t) * philo_info.number);
-	if (!philosophers)
+	philo_thread = malloc(sizeof(pthread_t) * philo_info.number);
+	if (!philo_thread)
+		return (print_malloc_error());
+	philo = malloc(sizeof(t_philo) * philo_info.number);
+	if (!philo)
 		return (print_malloc_error());
 	i = 0;
 	while (i < philo_info.number)
 	{
-		pthread_create(&philosophers[i], NULL, &philo_thread, &philo_info);
+		philo[i].info = &philo_info;
+		philo[i].index = i + 1;
+		pthread_create(&philo_thread[i], NULL, &philo_task, &philo[i]);
 		i++;
 	}
 	return (0);
