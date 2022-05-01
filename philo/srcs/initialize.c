@@ -6,17 +6,15 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 19:39:05 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/01 19:40:51 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/02 01:13:51 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_philosophers(int index, t_philo_info *info)
+void	init_philosophers(int index, t_philo *philo)
 {
-	info->number = index;
-	if (info->fork == NULL)
-		print_malloc_error();
+	philo->index = index;
 }
 
 void	init_forks(pthread_mutex_t *fork, t_philo_info *info)

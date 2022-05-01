@@ -6,7 +6,7 @@
 #    By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/23 20:09:20 by jiskim            #+#    #+#              #
-#    Updated: 2022/04/29 23:30:56 by jiskim           ###   ########.fr        #
+#    Updated: 2022/05/02 01:12:37 by jiskim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@ SRCS		= $(addprefix $(SRCS_DIR), \
 				main.c \
 				print_error.c \
 				utils.c \
+				initialize.c \
+				philo_action.c \
 				)
 OBJS 		= $(SRCS:.c=.o)
 
