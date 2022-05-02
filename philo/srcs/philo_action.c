@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 21:07:35 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/01 23:24:58 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/02 20:42:46 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	philo_thinking()
 
 }
 
-void	philo_eating(t_philo *philo)
-{
-	philo->last_eat_time = get_time_ms();
-}
+//void	philo_eating(t_philo *philo)
+//{
+//	(void *)(philo);
+//}

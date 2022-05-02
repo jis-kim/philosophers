@@ -6,7 +6,7 @@
 #    By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/23 20:09:20 by jiskim            #+#    #+#              #
-#    Updated: 2022/05/02 01:12:37 by jiskim           ###   ########.fr        #
+#    Updated: 2022/05/03 01:13:06 by jiskim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,10 @@ ifdef DEBUG
 	CFLAGS = -g3 -fsanitize=address
 else
 	CFLAGS = -Wall -Wextra -Werror
+endif
+
+ifdef THREAD
+	CFLAGS = -fsanitize=thread -g3
 endif
 
 all: $(NAME)
@@ -57,6 +61,9 @@ re: fclean all
 
 debug : fclean
 	@make DEBUG=1
+
+thread : fclean
+	@make THREAD=1
 
 .PHONY: all clean fclean re debug
 
