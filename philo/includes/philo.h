@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/03 03:12:53 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/04 20:24:49 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_philo_info
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat_count; /* not essential */
-	long				start_time;
+	time_t			start_time;
 	int				dead_flag;
 	pthread_mutex_t *fork;
 	pthread_mutex_t print;
@@ -35,7 +35,7 @@ typedef struct s_philo_info
 typedef struct s_philo
 {
 	int				index;
-	int				last_eat_time;
+	time_t			last_eat_time;
 	int				eat_count;
 	t_philo_info	*info;
 }			t_philo;
@@ -50,7 +50,7 @@ pthread_mutex_t	*init_forks(int number);
 
 /* utils */
 int	ft_strlen(char *str);
-long	get_time_ms(void);
-long	get_passed_time(long start_time);
+time_t	get_time_ms(void);
+time_t	get_passed_time(time_t start_time);
 
 # endif

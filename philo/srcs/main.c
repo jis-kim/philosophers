@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/03 03:21:13 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/04 21:37:48 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void *philo_task(void *philo)
 	p = (t_philo *)philo;
 	if (p->index % 2 == 1)
 	{
-		first = p->index - 1;
-		second = p->index;
+		first = p->index - 2;
+		second = p->index - 1;
 	}
 	else
 	{
-		first = p->index;
-		second = p->index - 1;
+		first = p->index - 1;
+		second = p->index - 2;
 	}
 	if (p->index == 1)
 		first = p->info->number - 1;
@@ -43,20 +43,18 @@ void *philo_task(void *philo)
 		/* odd -> left (index - 1), even -> right */
 		pthread_mutex_lock(&(p->info->fork[first]));
 		pthread_mutex_lock(&(p->info->print));
-		printf("%p ", &(p->info->fork[first]));
-		printf("%ld %d has taken a first fork %d\n", get_passed_time(p->info->start_time), p->index, first);
+		printf("%ld %d has taken a fork\n", get_passed_time(p->info->start_time), p->index);
 		pthread_mutex_unlock(&(p->info->print));
 
 		/* odd -> right, even -> left */
 		pthread_mutex_lock(&(p->info->fork[second]));
 		pthread_mutex_lock(&(p->info->print));
-		printf("%p ", &(p->info->fork[second]));
-		printf("%ld %d has taken a second fork %d\n", get_passed_time(p->info->start_time), p->index, second);
+		printf("%ld %d has taken a fork\n", get_passed_time(p->info->start_time), p->index);
 		pthread_mutex_unlock(&(p->info->print));
-
 		pthread_mutex_lock(&(p->info->print));
 		printf("%ld %d is eating\n", get_passed_time(p->info->start_time), p->index);
 		pthread_mutex_unlock(&(p->info->print));
+		usleep(p->info->time_to_eat * 1000);
 
 		pthread_mutex_unlock(&(p->info->fork[first]));
 		pthread_mutex_unlock(&(p->info->fork[second]));
@@ -64,14 +62,13 @@ void *philo_task(void *philo)
 		pthread_mutex_lock(&(p->info->print));
 		printf("%ld %d is sleeping\n", get_passed_time(p->info->start_time), p->index);
 		pthread_mutex_unlock(&(p->info->print));
-		usleep(p->info->time_to_sleep);
+		usleep(p->info->time_to_sleep * 1000);
 
 		pthread_mutex_lock(&(p->info->print));
 		printf("%ld %d is thinking\n", get_passed_time(p->info->start_time), p->index);
 		pthread_mutex_unlock(&(p->info->print));
 	}
-
-	return (p);
+	return (NULL);
 }
 
 int		check_argv(char *argv)
@@ -135,6 +132,7 @@ int	set_philo_info(int argc, char **argv, t_philo_info *info)
  * 5. [number_of_time_each_philosopher_must_eat]
  * @return int
  */
+
 int	main(int argc, char **argv)
 {
 	pthread_t *philo_thread;
@@ -162,6 +160,11 @@ int	main(int argc, char **argv)
 		pthread_create(&philo_thread[i], NULL, &philo_task, &philo[i]);
 		i++;
 	}
-	//printf("%ld\n", get_passed_time(philo_info.start_time));
+	i = 0;
+	while (i < philo_info.number)
+	{
+		pthread_join(philo_thread[i], NULL);
+		i++;
+	}
 	return (0);
 }
