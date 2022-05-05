@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 23:29:57 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/04 20:25:19 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/06 02:06:54 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ time_t	get_time_ms(void)
 
 time_t	get_passed_time(time_t start_time)
 {
-	return ((get_time_ms() - start_time) / 10000);
+	return ((get_time_ms() - start_time) / 1000);
 }

@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/04 20:24:49 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/06 01:52:16 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 typedef struct s_philo_info
 {
 	int				number;
-	int 			time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	long 			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
 	int				must_eat_count; /* not essential */
 	time_t			start_time;
 	int				dead_flag;

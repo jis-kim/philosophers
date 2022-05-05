@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/04 21:37:48 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/06 02:14:59 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,13 @@ void *philo_task(void *philo)
 		pthread_mutex_lock(&(p->info->print));
 		printf("%ld %d is eating\n", get_passed_time(p->info->start_time), p->index);
 		pthread_mutex_unlock(&(p->info->print));
-		usleep(p->info->time_to_eat * 1000);
+
+	// 생각을 해봐 지수야..
+	// 먹는동안 sleep이야.. 근데? 지금 시간이 먹기 시작한 시간으로부터 eat_time전까지여야돼
+		long now = get_passed_time(p->info->start_time);
+		while (get_passed_time(p->info->start_time) < p->info->time_to_eat + now)
+			usleep(100);
+		p->eat_count++;
 
 		pthread_mutex_unlock(&(p->info->fork[first]));
 		pthread_mutex_unlock(&(p->info->fork[second]));
@@ -62,7 +68,9 @@ void *philo_task(void *philo)
 		pthread_mutex_lock(&(p->info->print));
 		printf("%ld %d is sleeping\n", get_passed_time(p->info->start_time), p->index);
 		pthread_mutex_unlock(&(p->info->print));
-		usleep(p->info->time_to_sleep * 1000);
+		now = get_passed_time(p->info->start_time);
+		while (get_passed_time(p->info->start_time) < p->info->time_to_sleep  + now)
+			usleep(100);
 
 		pthread_mutex_lock(&(p->info->print));
 		printf("%ld %d is thinking\n", get_passed_time(p->info->start_time), p->index);
@@ -97,9 +105,6 @@ int	set_philo_info(int argc, char **argv, t_philo_info *info)
 	info->number = check_argv(argv[1]);
 	if (info->number <= 0)
 		return (1);
-	info->fork = init_forks(info->number);
-	if (!info->fork)
-		return (1);
 	info->time_to_die = check_argv(argv[2]);
 	if (info->time_to_die == -1)
 		return (1);
@@ -113,10 +118,15 @@ int	set_philo_info(int argc, char **argv, t_philo_info *info)
 	{
 		info->must_eat_count = check_argv(argv[5]);
 		if (info->must_eat_count == -1)
-			return (1);
+			return (2);
 	}
 	else
 		info->must_eat_count = -1;
+	info->fork = init_forks(info->number);
+	if (!info->fork)
+		return (1);
+	if (pthread_mutex_init(&(info->print), NULL))
+		return (1);
 	return (0);
 }
 
@@ -166,5 +176,6 @@ int	main(int argc, char **argv)
 		pthread_join(philo_thread[i], NULL);
 		i++;
 	}
+	pthread_mutex_destroy(&philo_info.print);
 	return (0);
 }
