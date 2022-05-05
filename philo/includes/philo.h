@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/06 01:52:16 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/06 04:43:31 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,8 @@ pthread_mutex_t	*init_forks(int number);
 int	ft_strlen(char *str);
 time_t	get_time_ms(void);
 time_t	get_passed_time(time_t start_time);
+
+/* check_dead */
+int	check_dead(t_philo *philo, time_t now);
 
 # endif

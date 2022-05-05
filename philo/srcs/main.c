@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/06 02:14:59 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/06 04:50:28 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,12 @@ void *philo_task(void *philo)
 	// 생각을 해봐 지수야..
 	// 먹는동안 sleep이야.. 근데? 지금 시간이 먹기 시작한 시간으로부터 eat_time전까지여야돼
 		long now = get_passed_time(p->info->start_time);
+		p->last_eat_time = now;
 		while (get_passed_time(p->info->start_time) < p->info->time_to_eat + now)
-			usleep(100);
+		{
+			check_dead(p, get_passed_time(p->info->start_time));
+			usleep(200);
+		}
 		p->eat_count++;
 
 		pthread_mutex_unlock(&(p->info->fork[first]));
@@ -70,8 +74,12 @@ void *philo_task(void *philo)
 		pthread_mutex_unlock(&(p->info->print));
 		now = get_passed_time(p->info->start_time);
 		while (get_passed_time(p->info->start_time) < p->info->time_to_sleep  + now)
-			usleep(100);
+		{
+			check_dead(p, get_passed_time(p->info->start_time));
+			usleep(200);
+		}
 
+		check_dead(p, get_passed_time(p->info->start_time));
 		pthread_mutex_lock(&(p->info->print));
 		printf("%ld %d is thinking\n", get_passed_time(p->info->start_time), p->index);
 		pthread_mutex_unlock(&(p->info->print));
@@ -127,6 +135,7 @@ int	set_philo_info(int argc, char **argv, t_philo_info *info)
 		return (1);
 	if (pthread_mutex_init(&(info->print), NULL))
 		return (1);
+	info->dead_flag = 0;
 	return (0);
 }
 
@@ -167,13 +176,26 @@ int	main(int argc, char **argv)
 	while (i < philo_info.number)
 	{
 		init_philosophers(i + 1, &philo[i], &philo_info);
-		pthread_create(&philo_thread[i], NULL, &philo_task, &philo[i]);
+		if (pthread_create(&philo_thread[i], NULL, &philo_task, &philo[i]))
+			break;
 		i++;
 	}
+	while (!philo_info.dead_flag)
+	{
+		usleep(200);
+	}
+	pthread_mutex_lock(&philo_info.print);
+	printf("%d \033[31mis died\n\033[0m", philo_info.dead_flag);
+	pthread_mutex_unlock(&philo_info.print);
 	i = 0;
 	while (i < philo_info.number)
 	{
 		pthread_join(philo_thread[i], NULL);
+		i++;
+	}
+	while (i < philo_info.number)
+	{
+		pthread_mutex_destroy(&(philo->info->fork[i]));
 		i++;
 	}
 	pthread_mutex_destroy(&philo_info.print);
