@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 23:29:57 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/06 02:06:54 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/07 00:41:27 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,28 @@ int	ft_strlen(char *str)
 		i++;
 	return (i);
 }
+
+int		ft_atoui(char *argv)
+{
+	unsigned long long	num;
+	int					length;
+
+	num = 0;
+	length = ft_strlen(argv);
+	if (length > 10)
+		return (-1);
+	while (*argv)
+	{
+		if (*argv < '0' || *argv > '9')
+			return (-1);
+		num = num * 10 + (*argv - '0');
+		if (num > 2147483647)
+			return (-1);
+		argv++;
+	}
+	return (num);
+}
+
 
 time_t	get_time_ms(void)
 {

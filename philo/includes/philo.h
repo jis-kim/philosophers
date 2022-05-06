@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/06 04:43:31 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/07 00:42:21 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ pthread_mutex_t	*init_forks(int number);
 
 /* utils */
 int	ft_strlen(char *str);
+int	ft_atoui(char *argv);
 time_t	get_time_ms(void);
 time_t	get_passed_time(time_t start_time);
 
