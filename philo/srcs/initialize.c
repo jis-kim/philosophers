@@ -6,18 +6,29 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 19:39:05 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/06 04:44:07 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/09 01:48:51 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_philosophers(int index, t_philo *philo, t_philo_info *info)
+int	init_philo(int index, t_philo *philo, t_philo_info *info)
 {
 	philo->index = index;
 	philo->info = info;
 	philo->last_eat_time = info->start_time;
 	philo->eat_count = 0;
+	if (index == 1)
+	{
+		philo->left = &info->fork[0];
+		philo->right = &info->fork[info->number - 1];
+	}
+	else
+	{
+		philo->left = &info->fork[index - 1];
+		philo->right = &info->fork[index - 2];
+	}
+	return (0);
 }
 
 pthread_mutex_t	*init_forks(int number)

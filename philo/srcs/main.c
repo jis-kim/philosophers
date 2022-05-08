@@ -6,116 +6,11 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/07 00:41:50 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/09 01:48:57 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-/**
- * eating, sleeping, thinking
- * 짝수면 n + 1, 홀수면 n번째 포크를 집는다?
- */
-void *philo_task(void *philo)
-{
-	t_philo	*p;
-	int		first;
-	int		second;
-
-	p = (t_philo *)philo;
-	if (p->index % 2 == 1)
-	{
-		first = p->index - 2;
-		second = p->index - 1;
-	}
-	else
-	{
-		first = p->index - 1;
-		second = p->index - 2;
-	}
-	if (p->index == 1)
-		first = p->info->number - 1;
-	if (p->index == p->info->number)
-		second = 0;
-
-	while (1)
-	{
-		/* odd -> left (index - 1), even -> right */
-		pthread_mutex_lock(&(p->info->fork[first]));
-		if (p->info->dead_flag)
-		{
-			pthread_mutex_unlock(&(p->info->fork[first]));
-			return (NULL);
-		}
-		pthread_mutex_lock(&(p->info->print));
-		printf("%ld %d has taken a fork\n", get_passed_time(p->info->start_time), p->index);
-		pthread_mutex_unlock(&(p->info->print));
-		/* odd -> right, even -> left */
-		pthread_mutex_lock(&(p->info->fork[second]));
-
-		if (p->info->dead_flag)
-		{
-			pthread_mutex_unlock(&(p->info->fork[first]));
-			pthread_mutex_unlock(&(p->info->fork[second]));
-			return (NULL);
-		}
-		pthread_mutex_lock(&(p->info->print));
-		printf("%ld %d has taken a fork\n", get_passed_time(p->info->start_time), p->index);
-		pthread_mutex_unlock(&(p->info->print));
-
-		if (p->info->dead_flag)
-		{
-			pthread_mutex_unlock(&(p->info->fork[first]));
-			pthread_mutex_unlock(&(p->info->fork[second]));
-			return (NULL);
-		}
-		pthread_mutex_lock(&(p->info->print));
-		printf("%ld %d is eating\n", get_passed_time(p->info->start_time), p->index);
-		pthread_mutex_unlock(&(p->info->print));
-
-	// 생각을 해봐 지수야..
-	// 먹는동안 sleep이야.. 근데? 지금 시간이 먹기 시작한 시간으로부터 eat_time전까지여야돼
-		long now = get_passed_time(p->info->start_time);
-		pthread_mutex_lock(&(p->info->print));
-		p->last_eat_time = now;
-		pthread_mutex_unlock(&(p->info->print));
-		while (get_passed_time(p->info->start_time) < p->info->time_to_eat + now)
-		{
-			if (p->info->dead_flag)
-			{
-				pthread_mutex_unlock(&(p->info->fork[first]));
-				pthread_mutex_unlock(&(p->info->fork[second]));
-				return (NULL);
-			}
-			usleep(200);
-		}
-		p->eat_count++;
-
-		pthread_mutex_unlock(&(p->info->fork[first]));
-		pthread_mutex_unlock(&(p->info->fork[second]));
-
-		if (p->info->dead_flag)
-			return (NULL);
-		pthread_mutex_lock(&(p->info->print));
-		printf("%ld %d is sleeping\n", get_passed_time(p->info->start_time), p->index);
-		pthread_mutex_unlock(&(p->info->print));
-		now = get_passed_time(p->info->start_time);
-		while (get_passed_time(p->info->start_time) < p->info->time_to_sleep  + now)
-		{
-			if (p->info->dead_flag)
-				return (NULL);
-			usleep(200);
-		}
-		if (p->info->dead_flag)
-			return (NULL);
-		pthread_mutex_lock(&(p->info->print));
-		printf("%ld %d is thinking\n", get_passed_time(p->info->start_time), p->index);
-		pthread_mutex_unlock(&(p->info->print));
-		if (p->info->dead_flag)
-			return (NULL);
-	}
-	return (NULL);
-}
 
 int	set_philo_info(int argc, char **argv, t_philo_info *info)
 {
@@ -167,7 +62,6 @@ int	main(int argc, char **argv)
 	t_philo_info philo_info;
 	t_philo	*philo;
 	int i;
-	time_t	now;
 
 	if (argc != 5 && argc != 6)
 		return (print_arg_error());
@@ -185,33 +79,19 @@ int	main(int argc, char **argv)
 	philo_info.start_time = get_time_ms();
 	while (i < philo_info.number)
 	{
-		init_philosophers(i + 1, &philo[i], &philo_info);
-		if (pthread_create(&philo_thread[i], NULL, &philo_task, &philo[i]))
+		init_philo(i + 1, &philo[i], &philo_info);
+		if (pthread_create(&philo_thread[i], NULL, &philo_action, &philo[i]))
 			break;
 		i++;
 	}
-	i = 0;
-	while (1)
-	{
-		if (i == philo_info.number)
-			i = 0;
-		now = get_passed_time(philo->info->start_time);
-		if (check_dead(&philo[i], now))
-		{
-			pthread_mutex_lock(&philo_info.print);
-			printf("%ld %d \033[31mis died\n\033[0m", now, philo_info.dead_flag);
-			pthread_mutex_unlock(&philo_info.print);
-			break;
-		}
-		i++;
-		usleep(200);
-	}
+	monitor_dead(philo, &philo_info);
 	i = 0;
 	while (i < philo_info.number)
 	{
 		pthread_join(philo_thread[i], NULL);
 		i++;
 	}
+	i = 0;
 	while (i < philo_info.number)
 	{
 		pthread_mutex_destroy(&(philo->info->fork[i]));
