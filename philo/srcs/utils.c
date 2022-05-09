@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 23:29:57 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/09 01:22:21 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/09 20:47:44 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int		ft_atoui(char *argv)
 	}
 	return (num);
 }
-
 
 time_t	get_time_ms(void)
 {

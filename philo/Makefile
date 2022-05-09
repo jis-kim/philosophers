@@ -6,7 +6,7 @@
 #    By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/23 20:09:20 by jiskim            #+#    #+#              #
-#    Updated: 2022/05/09 01:17:52 by jiskim           ###   ########.fr        #
+#    Updated: 2022/05/09 21:10:33 by jiskim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS		= $(addprefix $(SRCS_DIR), \
 				utils.c \
 				initialize.c \
 				philo_action.c \
+				philo_routine.c \
 				monitor_dead.c \
 				)
 OBJS 		= $(SRCS:.c=.o)
@@ -34,7 +35,7 @@ else
 endif
 
 ifdef THREAD
-	CFLAGS = -fsanitize=thread -g3
+	CFLAGS = -fsanitize=thread -g
 endif
 
 all: $(NAME)

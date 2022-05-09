@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/09 01:48:57 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/09 21:22:48 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	set_philo_info(int argc, char **argv, t_philo_info *info)
 	info->fork = init_forks(info->number);
 	if (!info->fork)
 		return (1);
-	if (pthread_mutex_init(&(info->print), NULL))
+	if (pthread_mutex_init(&(info->key), NULL))
 		return (1);
 	info->dead_flag = 0;
 	return (0);
@@ -73,7 +73,7 @@ int	main(int argc, char **argv)
 	philo = malloc(sizeof(t_philo) * philo_info.number);
 	if (!philo)
 		return (print_malloc_error());
-	if (pthread_mutex_init(&philo_info.print, NULL))
+	if (pthread_mutex_init(&philo_info.key, NULL))
 		return (1);
 	i = 0;
 	philo_info.start_time = get_time_ms();
@@ -97,6 +97,6 @@ int	main(int argc, char **argv)
 		pthread_mutex_destroy(&(philo->info->fork[i]));
 		i++;
 	}
-	pthread_mutex_destroy(&philo_info.print);
+	pthread_mutex_destroy(&philo_info.key);
 	return (0);
 }
