@@ -6,12 +6,16 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/09 21:22:58 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/09 22:04:18 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+
+# define TWO_FORK_DEAD 2
+# define ONE_FORK_DEAD 1
+# define SUCCESS 0
 
 # include <pthread.h>
 # include <stdio.h>

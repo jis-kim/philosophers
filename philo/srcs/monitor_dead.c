@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:08:21 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/09 21:07:07 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/09 23:00:34 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	monitor_dead(t_philo *philo, t_philo_info *info)
 			printf("%ld %d \033[1;31mis died\n\033[0m",
 				now, info->dead_flag);
 			pthread_mutex_unlock(&(info->key));
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&(info->key));
 		i++;

@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 19:39:05 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/09 21:36:23 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/09 21:39:01 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	init_philo(int index, t_philo *philo, t_philo_info *info)
 
 pthread_mutex_t	*init_forks(int number)
 {
-	int	i;
-	pthread_mutex_t *fork;
+	int				i;
+	pthread_mutex_t	*fork;
 
 	i = 0;
 	fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * number);

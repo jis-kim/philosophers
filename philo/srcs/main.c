@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/09 21:22:48 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/10 01:09:20 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ int	set_philo_info(int argc, char **argv, t_philo_info *info)
 
 int	main(int argc, char **argv)
 {
-	pthread_t *philo_thread;
-	t_philo_info philo_info;
-	t_philo	*philo;
-	int i;
+	pthread_t		*philo_thread;
+	t_philo_info	philo_info;
+	t_philo			*philo;
+	int				i;
 
 	if (argc != 5 && argc != 6)
 		return (print_arg_error());
@@ -77,13 +77,15 @@ int	main(int argc, char **argv)
 		return (1);
 	i = 0;
 	philo_info.start_time = get_time_ms();
+	pthread_mutex_lock(&philo_info.key);
 	while (i < philo_info.number)
 	{
 		init_philo(i + 1, &philo[i], &philo_info);
 		if (pthread_create(&philo_thread[i], NULL, &philo_action, &philo[i]))
-			break;
+			break ;
 		i++;
 	}
+	pthread_mutex_unlock(&philo_info.key);
 	monitor_dead(philo, &philo_info);
 	i = 0;
 	while (i < philo_info.number)
