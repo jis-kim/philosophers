@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/09 22:04:18 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/11 03:50:17 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_philo_info
 	int				must_eat_count;
 	time_t			start_time;
 	int				dead_flag;
+	int				full_philo;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	key;
 }			t_philo_info;
@@ -58,7 +59,7 @@ pthread_mutex_t	*init_forks(int number);
 void			*philo_action(void *p);
 
 /* philo_routine */
-int				philo_eat(t_philo *p, pthread_mutex_t *fst, pthread_mutex_t *snd);
+int				philo_eat(t_philo *p);
 int				philo_sleep(t_philo *p);
 int				philo_think(t_philo *p);
 

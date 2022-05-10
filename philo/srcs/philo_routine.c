@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:05:50 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/09 23:02:40 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/11 03:49:55 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static int	take_fork(t_philo *p, pthread_mutex_t *fork)
 	return (0);
 }
 
-int	philo_eat(t_philo *p, pthread_mutex_t *fst, pthread_mutex_t *snd)
+int	philo_eat(t_philo *p)
 {
 	time_t	now;
 
-	if (take_fork(p, fst))
+	if (take_fork(p, p->left))
 		return (ONE_FORK_DEAD);
-	if (take_fork(p, snd))
+	if (take_fork(p, p->right))
 		return (TWO_FORK_DEAD);
 	pthread_mutex_lock(&(p->info->key));
 	if (p->info->dead_flag)

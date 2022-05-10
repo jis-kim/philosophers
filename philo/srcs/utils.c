@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 23:29:57 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/09 21:40:47 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/11 03:54:34 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ time_t	get_time_ms(void)
 	struct timeval	tv;
 	time_t			time_now;
 
-	if (gettimeofday(&tv, NULL) == -1)
-		return (-1);
+	gettimeofday(&tv, NULL);
 	time_now = tv.tv_sec * 1000000 + tv.tv_usec;
 	return (time_now);
 }

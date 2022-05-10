@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/10 01:09:20 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/11 04:00:19 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,17 @@
 int	set_philo_info(int argc, char **argv, t_philo_info *info)
 {
 	info->number = ft_atoui(argv[1]);
-	if (info->number <= 0)
-		return (1);
 	info->time_to_die = ft_atoui(argv[2]);
-	if (info->time_to_die == -1)
-		return (1);
 	info->time_to_eat = ft_atoui(argv[3]);
-	if (info->time_to_eat == -1)
-		return (1);
 	info->time_to_sleep = ft_atoui(argv[4]);
-	if (info->time_to_sleep == -1)
+	if (info->number <= 0 || info->time_to_die < 0 || info->time_to_eat < 9
+		|| info->time_to_sleep < 0)
 		return (1);
 	if (argc == 6)
 	{
 		info->must_eat_count = ft_atoui(argv[5]);
 		if (info->must_eat_count == -1)
-			return (2);
+			return (1);
 	}
 	else
 		info->must_eat_count = -1;
@@ -76,13 +71,18 @@ int	main(int argc, char **argv)
 	if (pthread_mutex_init(&philo_info.key, NULL))
 		return (1);
 	i = 0;
-	philo_info.start_time = get_time_ms();
-	pthread_mutex_lock(&philo_info.key);
 	while (i < philo_info.number)
 	{
 		init_philo(i + 1, &philo[i], &philo_info);
+		i++;
+	}
+	philo_info.start_time = get_time_ms();
+	i = 0;
+	pthread_mutex_lock(&philo_info.key);
+	while (i < philo_info.number)
+	{
 		if (pthread_create(&philo_thread[i], NULL, &philo_action, &philo[i]))
-			break ;
+			return (1);
 		i++;
 	}
 	pthread_mutex_unlock(&philo_info.key);
