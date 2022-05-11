@@ -6,29 +6,36 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 19:39:05 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/09 21:39:01 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/11 22:22:21 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_philo(int index, t_philo *philo, t_philo_info *info)
+void	init_philo(t_philo *philo, t_philo_info *info)
 {
-	philo->index = index;
-	philo->info = info;
-	philo->last_eat_time = info->start_time;
-	philo->eat_count = 0;
-	if (index == 1)
+	int	i;
+
+	i = 0;
+	while (i < info->number)
 	{
-		philo->left = &info->fork[0];
-		philo->right = &info->fork[info->number - 1];
+		philo[i].index = i + 1;
+		philo[i].info = info;
+		philo[i].last_eat_time = info->start_time;
+		philo[i].eat_count = 0;
+		philo[i].already_full = 0;
+		if (i == 0)
+		{
+			philo[i].left = &info->fork[0];
+			philo[i].right = &info->fork[info->number - 1];
+		}
+		else
+		{
+			philo[i].left = &info->fork[i];
+			philo[i].right = &info->fork[i - 1];
+		}
+		i++;
 	}
-	else
-	{
-		philo->left = &info->fork[index - 1];
-		philo->right = &info->fork[index - 2];
-	}
-	return (0);
 }
 
 pthread_mutex_t	*init_forks(int number)

@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 21:07:35 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/11 04:08:58 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/11 22:30:14 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@ static int	do_routine(t_philo *p)
 		pthread_mutex_unlock(&(p->info->key));
 		return (1);
 	}
-	pthread_mutex_lock(&(p->info->key));
-	if (p->eat_count == p->info->must_eat_count)
-		p->info->full_philo++;
-	pthread_mutex_unlock(&(p->info->key));
 	if (philo_sleep(p) || philo_think(p))
 	{
 		pthread_mutex_unlock(&(p->info->key));
