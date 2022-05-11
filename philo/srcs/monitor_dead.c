@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:08:21 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/11 22:23:16 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/11 22:54:28 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	check_dead(t_philo *p, t_philo_info *info, time_t now)
 {
 	if (p->last_eat_time + info->time_to_die < now)
 	{
-		printf("%ld \033[34m%d \033[1;31mis died\n\033[0m", now, p->index + 1);
+		printf("%ld \033[34m%d \033[1;31mis died\n\033[0m", now, p->index);
 		info->dead_flag = 1;
 		return (1);
 	}

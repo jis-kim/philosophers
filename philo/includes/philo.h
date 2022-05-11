@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/11 22:32:05 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/11 22:59:23 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ pthread_mutex_t	*init_forks(int number);
 void			*philo_action(void *p);
 
 /* philo_routine */
+int				take_fork(t_philo *p, pthread_mutex_t *fork);
 int				philo_eat(t_philo *p);
 int				philo_sleep(t_philo *p);
 int				philo_think(t_philo *p);

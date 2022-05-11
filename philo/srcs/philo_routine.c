@@ -6,13 +6,13 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:05:50 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/11 03:49:55 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/11 22:59:06 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	take_fork(t_philo *p, pthread_mutex_t *fork)
+int	take_fork(t_philo *p, pthread_mutex_t *fork)
 {
 	pthread_mutex_lock(fork);
 	pthread_mutex_lock(&(p->info->key));
