@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:05:50 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/11 22:59:06 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/13 12:58:29 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	philo_eat(t_philo *p)
 		pthread_mutex_unlock(&(p->info->key));
 		usleep(100);
 	}
-	p->eat_count++;
 	return (SUCCESS);
 }
 

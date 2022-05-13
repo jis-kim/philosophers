@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/11 22:59:23 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/13 15:32:40 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 # define ONE_FORK_DEAD 1
 # define SUCCESS 0
 
+# define ARG_ERROR 1
+# define MALLOC_ERROR 2
+# define THREAD_ERROR 3
+# define DESTROY_ERROR 4
+
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -26,13 +31,13 @@
 typedef struct s_philo_info
 {
 	int				number;
-	time_t			time_to_die;
-	time_t			time_to_eat;
-	time_t			time_to_sleep;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
 	int				must_eat_count;
-	time_t			start_time;
 	int				dead_flag;
 	int				full_philo;
+	time_t			start_time;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	key;
 }			t_philo_info;
@@ -50,13 +55,12 @@ typedef struct s_philo
 }			t_philo;
 
 /* print_error */
-int				print_arg_error(void);
-int				print_malloc_error(void);
-int				print_thread_error(void);
-
+int				print_error(int error_code);
 /* initialize */
 void			init_philo(t_philo *philo, t_philo_info *info);
 pthread_mutex_t	*init_forks(int number);
+int				init_data(int argc, char **argv, t_philo **philo,
+					t_philo_info *info);
 
 /* philo_action */
 void			*philo_action(void *p);
@@ -76,6 +80,7 @@ time_t			get_passed_time(time_t start_time);
 /* monitor_dead */
 void			monitor_dead(t_philo *philo, t_philo_info *info);
 
-int				free_resources(t_philo *philo, t_philo_info *info);
+int				free_fork(t_philo_info *info);
+int				free_resources(t_philo *philo, t_philo_info *info, int num);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 21:07:35 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/11 23:08:24 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/13 13:07:33 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ static int	do_routine(t_philo *p)
 	int	ret;
 
 	ret = philo_eat(p);
+	if (ret == SUCCESS)
+	{
+		pthread_mutex_lock(&(p->info->key));
+		p->eat_count++;
+		pthread_mutex_unlock(&(p->info->key));
+	}
 	if (ret != ONE_FORK_DEAD)
 		pthread_mutex_unlock(p->right);
 	pthread_mutex_unlock(p->left);
