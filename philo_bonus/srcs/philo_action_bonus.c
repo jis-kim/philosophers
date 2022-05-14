@@ -14,17 +14,17 @@
 
 static void	do_one_routine(t_philo *p)
 {
-	take_fork(p, p->left);
+	take_fork(p);
 	while (1)
 	{
-		pthread_mutex_lock(&(p->info->key));
+		//pthread_mutex(&(p->info->key));
 		if (p->info->dead_flag)
 		{
-			pthread_mutex_unlock(&(p->info->key));
-			pthread_mutex_unlock(p->left);
+			//pthread_mutex(&(p->info->key));
+			//pthread_mutex(p->left);
 			return ;
 		}
-		pthread_mutex_unlock(&(p->info->key));
+		//pthread_mutex(&(p->info->key));
 		usleep(100);
 	}
 }
@@ -36,21 +36,21 @@ static int	do_routine(t_philo *p)
 	ret = philo_eat(p);
 	if (ret == SUCCESS)
 	{
-		pthread_mutex_lock(&(p->info->key));
+		//pthread_mutex(&(p->info->key));
 		p->eat_count++;
-		pthread_mutex_unlock(&(p->info->key));
+		//pthread_mutex(&(p->info->key));
 	}
 	if (ret != ONE_FORK_DEAD)
-		pthread_mutex_unlock(p->right);
-	pthread_mutex_unlock(p->left);
+		//pthread_mutex(p->right);
+	//pthread_mutex(p->left);
 	if (ret)
 	{
-		pthread_mutex_unlock(&(p->info->key));
+		//pthread_mutex(&(p->info->key));
 		return (1);
 	}
 	if (philo_sleep(p) || philo_think(p))
 	{
-		pthread_mutex_unlock(&(p->info->key));
+		//pthread_mutex(&(p->info->key));
 		return (1);
 	}
 	return (0);
@@ -66,8 +66,8 @@ void	*philo_action(void *philo)
 		do_one_routine(p);
 		return (NULL);
 	}
-	pthread_mutex_lock(&(p->info->key));
-	pthread_mutex_unlock(&(p->info->key));
+	//pthread_mutex(&(p->info->key));
+	//pthread_mutex(&(p->info->key));
 	if (p->index % 2 == 0)
 		usleep((p->info->time_to_eat / 2) * 1000);
 	while (!do_routine(p))

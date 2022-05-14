@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialize.c                                       :+:      :+:    :+:   */
+/*   initialize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 19:39:05 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/13 15:45:58 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/14 21:51:26 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,18 @@ void	init_philo(t_philo *philo, t_philo_info *info)
 	}
 }
 
-pthread_mutex_t	*init_forks(int number)
+sem_t	*init_forks(int number)
 {
-	int				i;
-	pthread_mutex_t	*fork;
+	int		i;
+	sem_t	*fork;
 
 	i = 0;
-	fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * number);
+	fork = sem_open("fork", O_CREAT, 0644, number);
 	if (!fork)
-		return (NULL);
+	{
+		sem_close("fork");
+		sem_open("fork", O_CREAT, 0644, number);
+	}
 	while (i < number)
 	{
 		if (pthread_mutex_init(&fork[i], NULL))
