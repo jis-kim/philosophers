@@ -5,6 +5,12 @@
     "__locale": "c",
     "__string": "c",
     "string": "c",
-    "string_view": "c"
+    "string_view": "c",
+    "cdefs.h": "c",
+    "shm.h": "c",
+    "semaphore.h": "c"
+  },
+  "files.exclude": {
+    "**/*.o": true
   }
 }

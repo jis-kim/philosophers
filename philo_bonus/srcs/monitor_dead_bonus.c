@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   monitor_dead.c                                     :+:      :+:    :+:   */
+/*   monitor_dead_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:08:21 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/14 21:22:37 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/15 16:53:21 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ void	monitor_dead(t_philo *philo, t_philo_info *info)
 	{
 		if (i == info->number)
 			i = 0;
-		//pthread_mutex(&(info->key));
+		sem_wait(info->key);
 		now = get_passed_time(info->start_time);
 		if (check_dead(&philo[i], info, now) || check_full(&philo[i], info))
 		{
-			//pthread_mutex(&(info->key));
+			sem_post(info->key);
 			return ;
 		}
-		//pthread_mutex(&(info->key));
+		sem_post(info->key);
 		i++;
 		usleep(100);
 	}

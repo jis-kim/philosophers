@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/14 21:22:38 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/15 19:46:36 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ int	born_philosophers(t_philo *philo, t_philo_info *info)
 	int	i;
 
 	i = 0;
-	//pthread_mutex(&(info->key));
+	sem_wait(info->key);
 	while (i < info->number)
 	{
 		if (pthread_create(&(philo[i].thread), NULL, &philo_action, &philo[i]))
 		{
 			info->dead_flag = 1;
-			//pthread_mutex(&(info->key));
+			sem_post(info->key); //fail
 			return (i);
 		}
 		i++;
 	}
-	//pthread_mutex(&(info->key));
+	sem_post(info->key);
 	return (-1);
 }
 

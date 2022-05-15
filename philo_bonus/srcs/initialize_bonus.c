@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 19:39:05 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/14 21:51:26 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/15 19:44:57 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ static int	set_philo_info(int argc, char **argv, t_philo_info *info)
 	info->fork = init_forks(info->number);
 	if (!info->fork)
 		return (MALLOC_ERROR);
-	if (pthread_mutex_init(&(info->key), NULL))
+	sem_unlink(KEY);
+	info->key = sem_open(KEY, O_CREAT, 0644, 1);
+	if (info->key == SEM_FAILED)
 	{
 		if (!free_fork(info))
 			return (THREAD_ERROR);
@@ -53,16 +55,6 @@ void	init_philo(t_philo *philo, t_philo_info *info)
 		philo[i].last_eat_time = info->start_time;
 		philo[i].eat_count = 0;
 		philo[i].already_full = 0;
-		if (i == 0)
-		{
-			philo[i].left = &info->fork[0];
-			philo[i].right = &info->fork[info->number - 1];
-		}
-		else
-		{
-			philo[i].left = &info->fork[i];
-			philo[i].right = &info->fork[i - 1];
-		}
 		i++;
 	}
 }
@@ -73,23 +65,10 @@ sem_t	*init_forks(int number)
 	sem_t	*fork;
 
 	i = 0;
-	fork = sem_open("fork", O_CREAT, 0644, number);
-	if (!fork)
-	{
-		sem_close("fork");
-		sem_open("fork", O_CREAT, 0644, number);
-	}
-	while (i < number)
-	{
-		if (pthread_mutex_init(&fork[i], NULL))
-		{
-			while (i--)
-				pthread_mutex_destroy(&fork[i]);
-			free(fork);
-			return (NULL);
-		}
-		i++;
-	}
+	sem_unlink(FORK); // if fork is already opened
+	fork = sem_open(FORK, O_CREAT, 0644, number);
+	if (fork == SEM_FAILED)
+		return (NULL);
 	return (fork);
 }
 

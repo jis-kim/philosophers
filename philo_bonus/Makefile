@@ -6,11 +6,11 @@
 #    By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/23 20:09:20 by jiskim            #+#    #+#              #
-#    Updated: 2022/05/11 22:18:47 by jiskim           ###   ########.fr        #
+#    Updated: 2022/05/15 19:43:07 by jiskim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philo
+NAME = philo_bonus
 
 CC		=	gcc
 RM		=	rm -rf
@@ -18,14 +18,14 @@ INCS_DIR	=	-I./includes
 
 SRCS_DIR 		= ./srcs/
 SRCS		= $(addprefix $(SRCS_DIR), \
-				main.c \
-				print_error.c \
-				utils.c \
-				initialize.c \
-				philo_action.c \
-				philo_routine.c \
-				monitor_dead.c \
-				free_resources.c \
+				main_bonus.c \
+				print_error_bonus.c \
+				utils_bonus.c \
+				initialize_bonus.c \
+				philo_action_bonus.c \
+				philo_routine_bonus.c \
+				monitor_dead_bonus.c \
+				free_resources_bonus.c \
 				)
 OBJS 		= $(SRCS:.c=.o)
 
@@ -36,7 +36,7 @@ else
 endif
 
 ifdef THREAD
-	CFLAGS = -fsanitize=thread -g
+	CFLAGS = -g -fsanitize=thread
 endif
 
 all: $(NAME)
