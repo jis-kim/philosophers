@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_error.c                                      :+:      :+:    :+:   */
+/*   print_error_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 23:25:54 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/13 15:45:58 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/15 22:32:55 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	print_malloc_error(void)
 
 int	print_thread_error(void)
 {
-	write(STDERR_FILENO, "Thread Function Error.\n", 24);
+	write(STDERR_FILENO, "Fork Process Error.\n", 21);
 	return (1);
 }
 
@@ -42,8 +42,8 @@ int	print_error(int error_code)
 		return (print_arg_error());
 	if (error_code == MALLOC_ERROR)
 		return (print_malloc_error());
-	if (error_code == THREAD_ERROR)
-		return (print_thread_error());
+	if (error_code == FORK_ERROR)
+		return (print_fork_error());
 	if (error_code == DESTROY_ERROR)
 		return (print_destroy_error());
 	write(STDERR_FILENO, "Undefined error\n", 17);

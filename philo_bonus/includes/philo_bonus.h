@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/15 21:43:03 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/15 22:35:44 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@
 
 # define ARG_ERROR 1
 # define MALLOC_ERROR 2
-# define THREAD_ERROR 3
+# define FORK_ERROR 3
 # define DESTROY_ERROR 4
 
 # define FORK "fork"
 # define KEY "key"
 
-# include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
@@ -48,7 +47,7 @@ typedef struct s_philo_info
 
 typedef struct s_philo
 {
-	pthread_t		thread;
+	pid_t			pid;
 	int				index;
 	time_t			last_eat_time;
 	int				eat_count;

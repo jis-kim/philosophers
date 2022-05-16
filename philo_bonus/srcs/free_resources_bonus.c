@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 21:46:52 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/15 19:47:12 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/15 22:36:04 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	free_resources(t_philo *philo, t_philo_info *info, int num)
 	i = 0;
 	while (i < num)
 	{
-		if (pthread_join(philo[i].thread, NULL))
+		if (waitpid(philo[i].pid))
 			return (1);
 		i++;
 	}
