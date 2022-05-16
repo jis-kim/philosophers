@@ -6,13 +6,13 @@
 #    By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/23 20:09:20 by jiskim            #+#    #+#              #
-#    Updated: 2022/05/11 22:18:47 by jiskim           ###   ########.fr        #
+#    Updated: 2022/05/16 21:24:13 by jiskim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-CC		=	gcc
+CC		=	cc
 RM		=	rm -rf
 INCS_DIR	=	-I./includes
 
