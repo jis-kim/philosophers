@@ -6,13 +6,13 @@
 #    By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/23 20:09:20 by jiskim            #+#    #+#              #
-#    Updated: 2022/05/15 19:43:07 by jiskim           ###   ########.fr        #
+#    Updated: 2022/05/16 21:23:58 by jiskim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo_bonus
 
-CC		=	gcc
+CC		=	cc
 RM		=	rm -rf
 INCS_DIR	=	-I./includes
 

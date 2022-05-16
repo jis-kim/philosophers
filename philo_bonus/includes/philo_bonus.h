@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/15 22:35:44 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/16 21:12:40 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@
 # define FORK "fork"
 # define KEY "key"
 
+# include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <semaphore.h>
+# include <signal.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <semaphore.h>
 
 typedef struct s_philo_info
 {
@@ -38,20 +40,19 @@ typedef struct s_philo_info
 	int		time_to_eat;
 	int		time_to_sleep;
 	int		must_eat_count;
-	int		dead_flag;
-	int		full_philo;
 	time_t	start_time;
 	sem_t	*fork;
 	sem_t	*key;
+	sem_t	*full;
 }			t_philo_info;
 
 typedef struct s_philo
 {
 	pid_t			pid;
 	int				index;
-	time_t			last_eat_time;
 	int				eat_count;
-	int				already_full;
+	time_t			last_eat_time;
+	pthread_t		thread;
 	t_philo_info	*info;
 }			t_philo;
 
@@ -79,10 +80,10 @@ time_t	get_time_ms(void);
 time_t	get_passed_time(time_t start_time);
 
 /* monitor_dead */
-void	monitor_dead(t_philo *philo, t_philo_info *info);
+void	*monitor_dead(void *p);
 
 /* destroy */
 int		free_fork(t_philo_info *info);
-int		free_resources(t_philo *philo, t_philo_info *info, int num);
+int		free_resources(t_philo *philo, t_philo_info *info);
 
 #endif

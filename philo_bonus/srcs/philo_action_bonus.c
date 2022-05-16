@@ -16,17 +16,7 @@ static void	do_one_routine(t_philo *p)
 {
 	take_fork(p);
 	while (1)
-	{
-		sem_wait(p->info->key);
-		if (p->info->dead_flag)
-		{
-			sem_post(p->info->key);
-			sem_post(p->info->fork);
-			return ;
-		}
-		sem_post(p->info->key);
 		usleep(100);
-	}
 }
 
 static int	do_routine(t_philo *p)

@@ -8,7 +8,8 @@
     "string_view": "c",
     "cdefs.h": "c",
     "shm.h": "c",
-    "semaphore.h": "c"
+    "semaphore.h": "c",
+    "signal.h": "c"
   },
   "files.exclude": {
     "**/*.o": true
