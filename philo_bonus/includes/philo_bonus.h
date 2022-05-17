@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/16 21:12:40 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 16:15:33 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 # define FORK "fork"
 # define KEY "key"
+# define FIN "fin"
 
 # include <pthread.h>
 # include <stdio.h>
@@ -35,15 +36,16 @@
 
 typedef struct s_philo_info
 {
-	int		number;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		must_eat_count;
-	time_t	start_time;
-	sem_t	*fork;
-	sem_t	*key;
-	sem_t	*full;
+	int				number;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				must_eat_count;
+	sem_t			*fork;
+	sem_t			*key;
+	sem_t			*fin;
+	time_t			start_time;
+	struct s_philo	*philo;
 }			t_philo_info;
 
 typedef struct s_philo
@@ -68,16 +70,17 @@ int		init_data(int argc, char **argv, t_philo **philo, t_philo_info *info);
 void	*philo_action(void *p);
 
 /* philo_routine */
-int		take_fork(t_philo *p);
-int		philo_eat(t_philo *p);
-int		philo_sleep(t_philo *p);
-int		philo_think(t_philo *p);
+void	take_fork(t_philo *p);
+void	philo_eat(t_philo *p);
+void	philo_sleep(t_philo *p);
+void	philo_think(t_philo *p);
 
 /* utils */
 int		ft_strlen(char *str);
 int		ft_atoui(char *argv);
 time_t	get_time_ms(void);
 time_t	get_passed_time(time_t start_time);
+int 	kill_philosophers(t_philo_info *info);
 
 /* monitor_dead */
 void	*monitor_dead(void *p);

@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 21:46:52 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/16 20:45:02 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 15:50:55 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ int free_resources(t_philo *philo, t_philo_info *info)
 		return (1);
 	sem_close(info->key);
 	if (sem_unlink(KEY))
+		return (1);
+	sem_close(info->fin);
+	if (sem_unlink(FIN))
 		return (1);
 	free(philo);
 	return (0);

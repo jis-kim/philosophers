@@ -19,31 +19,16 @@ static void	do_one_routine(t_philo *p)
 		usleep(100);
 }
 
-static int	do_routine(t_philo *p)
+static void	do_routine(t_philo *p)
 {
-	int	ret;
-
-	ret = philo_eat(p);
-	if (ret == SUCCESS)
-	{
-		sem_wait(p->info->key);
-		p->eat_count++;
-		sem_post(p->info->key);
-	}
-	if (ret != ONE_FORK_DEAD)
-		sem_post(p->info->fork);
+	philo_eat(p);
+	sem_wait(p->info->key);
+	p->eat_count++;
+	sem_post(p->info->key);
 	sem_post(p->info->fork);
-	if (ret)
-	{
-		sem_post(p->info->key);
-		return (1);
-	}
-	if (philo_sleep(p) || philo_think(p))
-	{
-		sem_post(p->info->key);
-		return (1);
-	}
-	return (0);
+	sem_post(p->info->fork);
+	philo_sleep(p);
+	philo_think(p);
 }
 
 void	*philo_action(void *philo)
@@ -56,11 +41,9 @@ void	*philo_action(void *philo)
 		do_one_routine(p);
 		return (NULL);
 	}
-	sem_wait(p->info->key);
-	sem_post(p->info->key);
 	if (p->index % 2 == 0)
 		usleep((p->info->time_to_eat / 2) * 1000);
-	while (!do_routine(p))
-		;
+	while (1)
+		do_routine(p);
 	return (NULL);
 }
