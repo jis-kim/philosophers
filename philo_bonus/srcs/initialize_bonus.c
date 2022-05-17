@@ -6,16 +6,16 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 19:39:05 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 20:36:47 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 21:39:19 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-sem_t *init_forks(int number)
+sem_t	*init_forks(int number)
 {
-	int i;
-	sem_t *fork;
+	int		i;
+	sem_t	*fork;
 
 	i = 0;
 	sem_unlink(FORK);
@@ -28,14 +28,14 @@ sem_t *init_forks(int number)
 	return (fork);
 }
 
-void set_info(int argc, char **argv, t_philo_info *info)
+void	set_info(int argc, char **argv, t_philo_info *info)
 {
 	info->number = ft_atoui(argv[1]);
 	info->time_to_die = ft_atoui(argv[2]);
 	info->time_to_eat = ft_atoui(argv[3]);
 	info->time_to_sleep = ft_atoui(argv[4]);
 	if (info->number <= 0 || info->time_to_die < 0 || info->time_to_eat < 0
-			|| info->time_to_sleep < 0)
+		|| info->time_to_sleep < 0)
 	{
 		print_error(ARG_ERROR);
 		exit(1);
@@ -52,7 +52,7 @@ void set_info(int argc, char **argv, t_philo_info *info)
 	}
 }
 
-static void set_sem(t_philo_info *info)
+static void	set_sem(t_philo_info *info)
 {
 	info->fork = init_forks(info->number);
 	sem_unlink(KEY);
@@ -74,9 +74,9 @@ static void set_sem(t_philo_info *info)
 	}
 }
 
-void init_philo(t_philo *philo, t_philo_info *info)
+void	init_philo(t_philo *philo, t_philo_info *info)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < info->number)
@@ -89,7 +89,7 @@ void init_philo(t_philo *philo, t_philo_info *info)
 	}
 }
 
-void init_data(int argc, char **argv, t_philo **philo, t_philo_info *info)
+void	init_data(int argc, char **argv, t_philo **philo, t_philo_info *info)
 {
 	set_info(argc, argv, info);
 	set_sem(info);

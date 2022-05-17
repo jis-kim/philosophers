@@ -6,16 +6,16 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 21:05:06 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 21:39:54 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void born_philosophers(t_philo *philo, t_philo_info *info)
+void	born_philosophers(t_philo *philo, t_philo_info *info)
 {
-	int i;
-	pid_t pid;
+	int		i;
+	pid_t	pid;
 
 	i = 0;
 	while (i < info->number)
@@ -39,11 +39,11 @@ void born_philosophers(t_philo *philo, t_philo_info *info)
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_philo_info philo_info;
-	t_philo *philo;
-	int i;
+	t_philo_info	philo_info;
+	t_philo			*philo;
+	int				i;
 
 	if ((argc != 5 && argc != 6))
 		return (print_error(ARG_ERROR));

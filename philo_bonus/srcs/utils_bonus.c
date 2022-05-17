@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 23:29:57 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 20:45:38 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 21:40:54 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ time_t	get_passed_time(time_t start_time)
 	return ((get_time_ms() - start_time) / 1000);
 }
 
-int kill_philosophers(t_philo *philo, t_philo_info *info)
+int	kill_philosophers(t_philo *philo, t_philo_info *info)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < info->number)

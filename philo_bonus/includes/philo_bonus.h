@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 20:45:34 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 21:38:31 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		ft_strlen(char *str);
 int		ft_atoui(char *argv);
 time_t	get_time_ms(void);
 time_t	get_passed_time(time_t start_time);
-int 	kill_philosophers(t_philo *philo, t_philo_info *info);
+int		kill_philosophers(t_philo *philo, t_philo_info *info);
 
 /* monitor_dead */
 void	*monitor_dead(void *p);
