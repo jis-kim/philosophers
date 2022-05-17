@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 23:29:57 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 16:29:01 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 18:00:10 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int kill_philosophers(t_philo_info *info)
 	i = 0;
 	while (i < info->number)
 	{
-		kill(info->philo[i].pid, SIGINT);
+		kill(info->philo[i].pid, SIGTERM);
 		i++;
 	}
 	return (0);

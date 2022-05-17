@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 19:39:05 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 17:30:24 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 18:44:06 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@ sem_t *init_forks(int number)
 	sem_t *fork;
 
 	i = 0;
-	sem_unlink(FORK); // if fork is already opened
+	sem_unlink(FORK);
 	fork = sem_open(FORK, O_CREAT, 0644, number);
 	if (fork == SEM_FAILED)
 	{
 		perror("");
-		//printf("%s\n", strerror(errno));
 		return (NULL);
 	}
 	return (fork);
@@ -66,8 +65,6 @@ void init_philo(t_philo *philo, t_philo_info *info)
 		i++;
 	}
 }
-#include <string.h>
-#include <errno.h>
 
 int init_data(int argc, char **argv, t_philo **philo, t_philo_info *info)
 {

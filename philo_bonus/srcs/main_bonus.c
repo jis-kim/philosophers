@@ -6,13 +6,12 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 17:33:23 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 18:38:08 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-// -1이 success임..
 int born_philosophers(t_philo *philo, t_philo_info *info)
 {
 	int i;
@@ -22,15 +21,13 @@ int born_philosophers(t_philo *philo, t_philo_info *info)
 	while (i < info->number)
 	{
 		pid = fork();
-		if (pid == -1) // 부모 - 실패 (wait 후 에러)
-		{
+		if (pid == -1)
 			return (i);
-		}
-		if (pid == 0) // 자식 - while 그만둬야함
+		if (pid == 0)
 		{
 			pthread_create(&philo[i].thread, NULL, monitor_dead, &philo[i]);
+			pthread_detach(philo[i].thread);
 			philo_action(&philo[i]);
-			//pthread_detach(philo[i].thread);
 			return (-1);
 		}
 		philo[i].pid = pid;
