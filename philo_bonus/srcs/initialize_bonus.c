@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 19:39:05 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 18:44:06 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 20:36:47 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,36 +19,59 @@ sem_t *init_forks(int number)
 
 	i = 0;
 	sem_unlink(FORK);
-	fork = sem_open(FORK, O_CREAT, 0644, number);
+	fork = sem_open(FORK, O_CREAT | O_EXCL, 0644, number);
 	if (fork == SEM_FAILED)
 	{
-		perror("");
-		return (NULL);
+		print_error(SEM_OPEN_ERROR);
+		exit(1);
 	}
 	return (fork);
 }
 
-static int set_philo_info(t_philo_info *info, t_philo *philo)
+void set_info(int argc, char **argv, t_philo_info *info)
+{
+	info->number = ft_atoui(argv[1]);
+	info->time_to_die = ft_atoui(argv[2]);
+	info->time_to_eat = ft_atoui(argv[3]);
+	info->time_to_sleep = ft_atoui(argv[4]);
+	if (info->number <= 0 || info->time_to_die < 0 || info->time_to_eat < 0
+			|| info->time_to_sleep < 0)
+	{
+		print_error(ARG_ERROR);
+		exit(1);
+	}
+	info->must_eat_count = -1;
+	if (argc == 6)
+	{
+		info->must_eat_count = ft_atoui(argv[5]);
+		if (info->must_eat_count == -1)
+		{
+			print_error(ARG_ERROR);
+			exit(1);
+		}
+	}
+}
+
+static void set_sem(t_philo_info *info)
 {
 	info->fork = init_forks(info->number);
-	if (!info->fork)
-		return (MALLOC_ERROR);
 	sem_unlink(KEY);
 	info->key = sem_open(KEY, O_CREAT, 0644, 1);
 	if (info->key == SEM_FAILED)
 	{
-		free_fork(info);
-		return (MALLOC_ERROR);
+		expire_sem(info->fork, FORK);
+		print_error(SEM_OPEN_ERROR);
+		exit(1);
 	}
 	sem_unlink(FIN);
 	info->fin = sem_open(FIN, O_CREAT, 0644, 0);
-	if (info->key == SEM_FAILED)
+	if (info->fin == SEM_FAILED)
 	{
-		free_fork(info);
-		return (MALLOC_ERROR);
+		expire_sem(info->key, KEY);
+		expire_sem(info->fork, FORK);
+		print_error(SEM_OPEN_ERROR);
+		exit(1);
 	}
-	info->philo = philo;
-	return (0);
 }
 
 void init_philo(t_philo *philo, t_philo_info *info)
@@ -66,33 +89,15 @@ void init_philo(t_philo *philo, t_philo_info *info)
 	}
 }
 
-int init_data(int argc, char **argv, t_philo **philo, t_philo_info *info)
+void init_data(int argc, char **argv, t_philo **philo, t_philo_info *info)
 {
-	int ret;
-
-	info->number = ft_atoui(argv[1]);
-	info->time_to_die = ft_atoui(argv[2]);
-	info->time_to_eat = ft_atoui(argv[3]);
-	info->time_to_sleep = ft_atoui(argv[4]);
-	if (info->number <= 0 || info->time_to_die < 0 || info->time_to_eat < 0
-			|| info->time_to_sleep < 0)
-		return (ARG_ERROR);
-	info->must_eat_count = -1;
-	if (argc == 6)
-	{
-		info->must_eat_count = ft_atoui(argv[5]);
-		if (info->must_eat_count == -1)
-			return (ARG_ERROR);
-	}
+	set_info(argc, argv, info);
+	set_sem(info);
 	*philo = malloc(sizeof(t_philo) * info->number);
 	if (!(*philo))
 	{
-		if (free_resources(*philo, info))
-			return (DESTROY_ERROR);
-		return (MALLOC_ERROR);
+		free_resources(*philo, info);
+		print_error(MALLOC_ERROR);
+		exit(1);
 	}
-	ret = set_philo_info(info, *philo);
-	if (ret)
-		return (ret);
-	return (0);
 }

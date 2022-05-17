@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 16:15:33 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 20:45:34 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define MALLOC_ERROR 2
 # define FORK_ERROR 3
 # define DESTROY_ERROR 4
+# define SEM_OPEN_ERROR 5
 
 # define FORK "fork"
 # define KEY "key"
@@ -45,7 +46,6 @@ typedef struct s_philo_info
 	sem_t			*key;
 	sem_t			*fin;
 	time_t			start_time;
-	struct s_philo	*philo;
 }			t_philo_info;
 
 typedef struct s_philo
@@ -64,7 +64,7 @@ int		print_error(int error_code);
 /* initialize */
 void	init_philo(t_philo *philo, t_philo_info *info);
 sem_t	*init_forks(int number);
-int		init_data(int argc, char **argv, t_philo **philo, t_philo_info *info);
+void	init_data(int argc, char **argv, t_philo **philo, t_philo_info *info);
 
 /* philo_action */
 void	*philo_action(void *p);
@@ -80,13 +80,13 @@ int		ft_strlen(char *str);
 int		ft_atoui(char *argv);
 time_t	get_time_ms(void);
 time_t	get_passed_time(time_t start_time);
-int 	kill_philosophers(t_philo_info *info);
+int 	kill_philosophers(t_philo *philo, t_philo_info *info);
 
 /* monitor_dead */
 void	*monitor_dead(void *p);
 
 /* destroy */
-int		free_fork(t_philo_info *info);
-int		free_resources(t_philo *philo, t_philo_info *info);
+void	expire_sem(sem_t *sem, const char *sem_name);
+void	free_resources(t_philo *philo, t_philo_info *info);
 
 #endif

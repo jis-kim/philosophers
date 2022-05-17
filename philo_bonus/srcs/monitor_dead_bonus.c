@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:08:21 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 18:35:46 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 21:06:04 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 static void	check_full(t_philo *p)
 {
+	sem_wait(p->info->key);
 	if (p->eat_count == p->info->must_eat_count)
 		sem_post(p->info->fin);
+	sem_post(p->info->key);
 }
 
 static void	check_dead(t_philo *p)

@@ -45,6 +45,5 @@ void	*philo_action(void *philo)
 		usleep((p->info->time_to_eat / 2) * 1000);
 	while (1)
 		do_routine(p);
-	printf("ㄲ,ㅌ니먄이\n");
 	return (NULL);
 }

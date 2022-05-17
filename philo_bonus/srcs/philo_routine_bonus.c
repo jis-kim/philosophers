@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 21:05:50 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 17:33:38 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/17 21:07:59 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	philo_eat(t_philo *p)
 	printf("%ld \033[34m%d \033[35mis eating\033[0m\n",
 		get_passed_time(p->info->start_time), p->index);
 	now = get_passed_time(p->info->start_time);
+	sem_post(p->info->key);
+	sem_wait(p->info->key);
 	p->last_eat_time = now;
 	sem_post(p->info->key);
 	while (get_passed_time(p->info->start_time) < p->info->time_to_eat + now)

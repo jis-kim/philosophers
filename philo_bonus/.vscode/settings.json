@@ -9,7 +9,10 @@
     "cdefs.h": "c",
     "shm.h": "c",
     "semaphore.h": "c",
-    "signal.h": "c"
+    "signal.h": "c",
+    "unistd.h": "c",
+    "time.h": "c",
+    "rbtree.h": "c"
   },
   "files.exclude": {
     "**/*.o": true
