@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:16:59 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 21:38:31 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/18 18:50:04 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define ARG_ERROR 1
 # define MALLOC_ERROR 2
 # define FORK_ERROR 3
-# define DESTROY_ERROR 4
+# define THREAD_ERROR 4
 # define SEM_OPEN_ERROR 5
 
 # define FORK "fork"

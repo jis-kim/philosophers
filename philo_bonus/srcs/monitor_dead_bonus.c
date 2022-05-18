@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:08:21 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 21:06:04 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/18 18:59:13 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	check_dead(t_philo *p)
 			sem_post(p->info->fin);
 			i++;
 		}
-		exit(1);
+		exit(0);
 	}
 	sem_post(p->info->key);
 }

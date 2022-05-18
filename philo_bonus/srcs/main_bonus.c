@@ -6,11 +6,23 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/17 21:39:54 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/18 19:04:14 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+static void	philo_child(t_philo *p)
+{
+	if (pthread_create(&(p->thread), NULL, monitor_dead, p))
+	{
+		print_error(THREAD_ERROR);
+		exit(1);
+	}
+	pthread_detach(p->thread);
+	philo_action(p);
+	exit(0);
+}
 
 void	born_philosophers(t_philo *philo, t_philo_info *info)
 {
@@ -29,10 +41,7 @@ void	born_philosophers(t_philo *philo, t_philo_info *info)
 		}
 		if (pid == 0)
 		{
-			pthread_create(&philo[i].thread, NULL, monitor_dead, &philo[i]);
-			pthread_detach(philo[i].thread);
-			philo_action(&philo[i]);
-			exit(0);
+			philo_child(&philo[i]);
 		}
 		philo[i].pid = pid;
 		i++;
@@ -58,9 +67,8 @@ int	main(int argc, char **argv)
 		sem_wait(philo_info.fin);
 		i++;
 	}
+	waitpid(-1, NULL, 0);
 	kill_philosophers(philo, &philo_info);
-	while (waitpid(-1, NULL, 0) != -1)
-		;
 	free_resources(philo, &philo_info);
 	return (0);
 }
