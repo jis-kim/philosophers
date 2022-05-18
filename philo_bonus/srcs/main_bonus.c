@@ -6,7 +6,7 @@
 /*   By: jiskim <jiskim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 20:15:55 by jiskim            #+#    #+#             */
-/*   Updated: 2022/05/18 19:04:14 by jiskim           ###   ########.fr       */
+/*   Updated: 2022/05/18 20:04:28 by jiskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ void	born_philosophers(t_philo *philo, t_philo_info *info)
 			exit(1);
 		}
 		if (pid == 0)
-		{
 			philo_child(&philo[i]);
-		}
 		philo[i].pid = pid;
 		i++;
 	}
